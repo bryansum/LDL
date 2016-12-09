@@ -14,6 +14,7 @@
 		08A309CB1DFA34060049ED37 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08A309C91DFA34060049ED37 /* LaunchScreen.storyboard */; };
 		08A309D61DFA34060049ED37 /* LDLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A309D51DFA34060049ED37 /* LDLTests.swift */; };
 		08A309E11DFA372C0049ED37 /* StoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A309E01DFA372C0049ED37 /* StoryTableViewCell.swift */; };
+		08A309E31DFA38EE0049ED37 /* StoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A309E21DFA38EE0049ED37 /* StoryTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		08A309D51DFA34060049ED37 /* LDLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDLTests.swift; sourceTree = "<group>"; };
 		08A309D71DFA34060049ED37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08A309E01DFA372C0049ED37 /* StoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryTableViewCell.swift; sourceTree = "<group>"; };
+		08A309E21DFA38EE0049ED37 /* StoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 			children = (
 				08A309C01DFA34060049ED37 /* AppDelegate.swift */,
 				08A309C21DFA34060049ED37 /* ViewController.swift */,
+				08A309E21DFA38EE0049ED37 /* StoryTableViewController.swift */,
 				08A309C41DFA34060049ED37 /* Main.storyboard */,
 				08A309C71DFA34060049ED37 /* Assets.xcassets */,
 				08A309C91DFA34060049ED37 /* LaunchScreen.storyboard */,
@@ -205,6 +208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08A309C31DFA34060049ED37 /* ViewController.swift in Sources */,
+				08A309E31DFA38EE0049ED37 /* StoryTableViewController.swift in Sources */,
 				08A309C11DFA34060049ED37 /* AppDelegate.swift in Sources */,
 				08A309E11DFA372C0049ED37 /* StoryTableViewCell.swift in Sources */,
 			);
