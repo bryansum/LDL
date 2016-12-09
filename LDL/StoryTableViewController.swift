@@ -11,7 +11,7 @@ import UIKit
 
 class StoryTableViewController: UITableViewController {
 
-  let stories = ["Title1", "Title2"]
+  let stories = ["Die Kleine Schneke", "Title2"]
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -40,4 +40,12 @@ class StoryTableViewController: UITableViewController {
 
     return cell
   }
+
+  // MARK: Segue logic
+
+//  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//    assert(segue.identifier == "showStory")
+//    let storyVC = segue.destination as! StoryViewController
+//    storyVC.title = stories[tableView.indexPathForSelectedRow!.row]
+//  }
 }

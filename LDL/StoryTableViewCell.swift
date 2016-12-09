@@ -11,4 +11,5 @@ import UIKit
 
 class StoryTableViewCell: UITableViewCell {
   @IBOutlet var titleLabel: UILabel!
+  @IBOutlet var detailLabel: UILabel!
 }

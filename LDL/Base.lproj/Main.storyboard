@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -35,29 +34,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StoryTableViewCell" id="nQ6-nY-ecx" customClass="StoryTableViewCell" customModule="LDL" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="StoryTableViewCell" textLabel="ss6-hb-BGf" detailTextLabel="R8X-21-dOR" style="IBUITableViewCellStyleSubtitle" id="nQ6-nY-ecx" customClass="StoryTableViewCell" customModule="LDL" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nQ6-nY-ecx" id="2qq-DL-hdX">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bgu-ub-Zgr">
-                                            <rect key="frame" x="15" y="11" width="345" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ss6-hb-BGf">
+                                            <rect key="frame" x="15" y="4" width="34" height="21"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="R8X-21-dOR">
+                                            <rect key="frame" x="15" y="25" width="33" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="bottomMargin" secondItem="Bgu-ub-Zgr" secondAttribute="bottom" constant="3" id="Rwy-7i-LTY"/>
-                                        <constraint firstItem="Bgu-ub-Zgr" firstAttribute="top" secondItem="2qq-DL-hdX" secondAttribute="topMargin" constant="3" id="YbD-T1-g1l"/>
-                                        <constraint firstItem="Bgu-ub-Zgr" firstAttribute="trailing" secondItem="2qq-DL-hdX" secondAttribute="trailingMargin" constant="-7" id="dwv-3t-LCP"/>
-                                        <constraint firstItem="Bgu-ub-Zgr" firstAttribute="leading" secondItem="2qq-DL-hdX" secondAttribute="leadingMargin" constant="7" id="uEk-Rw-Etp"/>
-                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="titleLabel" destination="Bgu-ub-Zgr" id="M0r-Pr-eRP"/>
+                                    <outlet property="detailLabel" destination="R8X-21-dOR" id="m6e-cm-TiK"/>
+                                    <outlet property="titleLabel" destination="ss6-hb-BGf" id="EwO-S3-0Cy"/>
+                                    <segue destination="vax-Ct-OaH" kind="show" identifier="showStory" id="aAi-D6-I7W"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -71,6 +74,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R8M-KZ-nrv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="456.80000000000001" y="786.65667166416802"/>
+        </scene>
+        <!--Story View Controller-->
+        <scene sceneID="Xwq-Ah-WNK">
+            <objects>
+                <viewController id="vax-Ct-OaH" customClass="StoryViewController" customModule="LDL" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nxb-dt-rlR"/>
+                        <viewControllerLayoutGuide type="bottom" id="pyT-Z0-lLb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ldO-0y-oH4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ekh-WS-upg">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="NQU-lz-L4F">
+                            <rect key="frame" x="113" y="7" width="150" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Story"/>
+                                <segment title="Q&amp;A"/>
+                            </segments>
+                        </segmentedControl>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="segmentedControl" destination="NQU-lz-L4F" id="a4x-Ux-NlZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2We-um-oAm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1268" y="787"/>
         </scene>
     </scenes>
 </document>
