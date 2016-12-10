@@ -10,6 +10,8 @@ import AVFoundation
 import Foundation
 import UIKit
 
+let audioPlayer = AudioPlayer()
+
 class AudioPlayer: UIView {
 
   let audioPlayer = AVPlayer()
@@ -27,7 +29,7 @@ class AudioPlayer: UIView {
     audioPlayer.addObserver(self, forKeyPath: #keyPath(AVPlayer.rate), options: .new, context: nil)
     audioPlayer.addObserver(self, forKeyPath: #keyPath(AVPlayer.currentItem), options: .new, context: nil)
 
-    let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+    let interval = CMTime(seconds: 0.2, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
     observer = audioPlayer.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
       guard
         let audioPlayer = self?.audioPlayer,
@@ -47,6 +49,7 @@ class AudioPlayer: UIView {
 
     pauseButton.setImage(#imageLiteral(resourceName: "PauseButton"), for: .normal)
     pauseButton.sizeToFit()
+    pauseButton.isHidden = true
     addSubview(pauseButton)
 
     pauseButton.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +67,7 @@ class AudioPlayer: UIView {
 
     addSubview(progressBar)
     progressBar.translatesAutoresizingMaskIntoConstraints = false
-    progressBar.leadingAnchor.constraint(equalTo: playButton.layoutMarginsGuide.trailingAnchor, constant: 8).isActive = true
+    progressBar.leadingAnchor.constraint(equalTo: playButton.trailingAnchor, constant: 8).isActive = true
     progressBar.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
     progressBar.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
   }
@@ -77,10 +80,6 @@ class AudioPlayer: UIView {
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-
-  override var intrinsicContentSize: CGSize {
-    return CGSize(width: UIViewNoIntrinsicMetric, height: 23)
   }
 
   // MARK - Public methods

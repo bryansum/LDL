@@ -20,8 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     try! audioSession.setCategory(AVAudioSessionCategoryPlayback)
 
     let navigationController = UINavigationController(rootViewController: StoriesViewController())
-    navigationController.toolbarItems = [UIBarButtonItem(customView: AudioPlayer())]
-    navigationController.setToolbarHidden(true, animated: false)
+    audioPlayer.autoresizingMask = .flexibleWidth
+    audioPlayer.frame = navigationController.toolbar.bounds
+    navigationController.toolbar.addSubview(audioPlayer)
 
     let window = UIWindow(frame: UIScreen.main.bounds)
     window.rootViewController = navigationController

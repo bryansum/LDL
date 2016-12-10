@@ -10,9 +10,6 @@ import Foundation
 import UIKit
 
 extension UINavigationController {
-  var audioPlayer: AudioPlayer {
-    return toolbarItems!.first!.customView as! AudioPlayer
-  }
 
   func play(url: URL) {
     if isToolbarHidden {
