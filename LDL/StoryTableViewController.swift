@@ -9,9 +9,13 @@
 import Foundation
 import UIKit
 
-class StoryTableViewController: UITableViewController {
+struct Story {
+  let name: String
+  let docs: [URL]
+  let audio: [URL]
+}
 
-  let stories = ["Die Kleine Schneke", "Title2"]
+class StoryTableViewController: UITableViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -36,9 +40,49 @@ class StoryTableViewController: UITableViewController {
 
     // Configure the cell...
     let story = stories[indexPath.row]
-    cell.titleLabel.text = story
+    cell.titleLabel.text = story.name
 
     return cell
+  }
+
+  // MARK: Documents
+
+  lazy var documentsDir: URL = {
+    return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+  }()
+
+  lazy var stories: [Story] = {
+    self.urls(in: self.documentsDir).filter { _, values in
+      return values.isDirectory!
+    }.map { dir, values in
+      let name = values.name!
+      let subDir = self.urls(in: dir)
+      let docs = subDir.filter { file, _ in
+        return file.pathExtension == "pdf"
+      }.map { $0.url }
+      let audio = subDir.filter { file, _ in
+        return file.pathExtension == "mp3"
+      }.map { $0.url }
+      return Story(name: name, docs: docs, audio: audio)
+    }
+  }()
+
+  typealias URLs = (url: URL, values: URLResourceValues)
+
+  let directoryKeys: [URLResourceKey] = [.isDirectoryKey, .nameKey]
+
+  func urls(in directory: URL) -> [URLs] {
+    let enumerator = FileManager.default.enumerator(at: directory, includingPropertiesForKeys: directoryKeys, options: [.skipsSubdirectoryDescendants], errorHandler: nil)!
+
+    var urls = [URLs]()
+
+    for case let url as URL in enumerator {
+      guard let resourceValues = try? url.resourceValues(forKeys: Set(directoryKeys)) else {
+          continue
+      }
+      urls.append((url, resourceValues))
+    }
+    return urls
   }
 
   // MARK: Segue logic

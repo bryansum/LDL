@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 
 class StoryViewController: UIViewController {
-  @IBOutlet var segmentedControl: UISegmentedControl!
-
   override func viewDidLoad() {
     super.viewDidLoad()
   }
