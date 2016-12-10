@@ -75,4 +75,16 @@ class StoryViewController: UITableViewController {
     return cell
   }
 
+  // MARK: - UITableViewDelegate
+
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    switch Sections(rawValue: indexPath.section)! {
+    case .docs:
+      let doc = story.docs[indexPath.row]
+    case .audio:
+      let audio = story.audio[indexPath.row]
+      navigationController?.play(url: audio)
+    }
+  }
+
 }

@@ -19,8 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let audioSession = AVAudioSession.sharedInstance()
     try! audioSession.setCategory(AVAudioSessionCategoryPlayback)
 
+    let navigationController = UINavigationController(rootViewController: StoriesViewController())
+    navigationController.toolbarItems = [UIBarButtonItem(customView: AudioPlayer())]
+    navigationController.setToolbarHidden(true, animated: false)
+
     let window = UIWindow(frame: UIScreen.main.bounds)
-    window.rootViewController = UINavigationController(rootViewController: StoriesViewController())
+    window.rootViewController = navigationController
     window.makeKeyAndVisible()
     self.window = window
 
