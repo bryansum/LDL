@@ -1,5 +1,5 @@
 //
-//  StoryTableViewController.swift
+//  StoriesViewController.swift
 //  LDL
 //
 //  Created by Bryan Summersett on 12/9/16.
@@ -13,9 +13,13 @@ struct Story {
   let name: String
   let docs: [URL]
   let audio: [URL]
+
+  var description: String {
+    return "\(docs.count) PDFs, \(audio.count) MP3s"
+  }
 }
 
-class StoryTableViewController: UITableViewController {
+class StoriesViewController: UITableViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -25,7 +29,7 @@ class StoryTableViewController: UITableViewController {
     tableView.rowHeight = UITableViewAutomaticDimension
   }
 
-  // MARK: - Table view data source
+  // MARK: - UITableViewDataSource
 
   override func numberOfSections(in tableView: UITableView) -> Int {
     return 1
@@ -41,6 +45,7 @@ class StoryTableViewController: UITableViewController {
     // Configure the cell...
     let story = stories[indexPath.row]
     cell.titleLabel.text = story.name
+    cell.detailLabel.text = story.description
 
     return cell
   }
@@ -87,9 +92,9 @@ class StoryTableViewController: UITableViewController {
 
   // MARK: Segue logic
 
-//  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//    assert(segue.identifier == "showStory")
-//    let storyVC = segue.destination as! StoryViewController
-//    storyVC.title = stories[tableView.indexPathForSelectedRow!.row]
-//  }
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    assert(segue.identifier == "showStory")
+    let storyVC = segue.destination as! StoryViewController
+    storyVC.story = stories[tableView.indexPathForSelectedRow!.row]
+  }
 }

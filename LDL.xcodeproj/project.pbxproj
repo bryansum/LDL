@@ -13,8 +13,8 @@
 		08A309C81DFA34060049ED37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08A309C71DFA34060049ED37 /* Assets.xcassets */; };
 		08A309CB1DFA34060049ED37 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08A309C91DFA34060049ED37 /* LaunchScreen.storyboard */; };
 		08A309D61DFA34060049ED37 /* LDLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A309D51DFA34060049ED37 /* LDLTests.swift */; };
-		08A309E11DFA372C0049ED37 /* StoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A309E01DFA372C0049ED37 /* StoryTableViewCell.swift */; };
-		08A309E31DFA38EE0049ED37 /* StoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A309E21DFA38EE0049ED37 /* StoryTableViewController.swift */; };
+		08A309E11DFA372C0049ED37 /* StoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A309E01DFA372C0049ED37 /* StoriesTableViewCell.swift */; };
+		08A309E31DFA38EE0049ED37 /* StoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A309E21DFA38EE0049ED37 /* StoriesViewController.swift */; };
 		08A309E51DFA9DEA0049ED37 /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A309E41DFA9DEA0049ED37 /* StoryViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,8 +39,8 @@
 		08A309D11DFA34060049ED37 /* LDLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LDLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08A309D51DFA34060049ED37 /* LDLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDLTests.swift; sourceTree = "<group>"; };
 		08A309D71DFA34060049ED37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		08A309E01DFA372C0049ED37 /* StoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryTableViewCell.swift; sourceTree = "<group>"; };
-		08A309E21DFA38EE0049ED37 /* StoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryTableViewController.swift; sourceTree = "<group>"; };
+		08A309E01DFA372C0049ED37 /* StoriesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoriesTableViewCell.swift; sourceTree = "<group>"; };
+		08A309E21DFA38EE0049ED37 /* StoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoriesViewController.swift; sourceTree = "<group>"; };
 		08A309E41DFA9DEA0049ED37 /* StoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,12 +85,12 @@
 			children = (
 				08A309C01DFA34060049ED37 /* AppDelegate.swift */,
 				08A309C21DFA34060049ED37 /* ViewController.swift */,
-				08A309E21DFA38EE0049ED37 /* StoryTableViewController.swift */,
+				08A309E21DFA38EE0049ED37 /* StoriesViewController.swift */,
 				08A309C41DFA34060049ED37 /* Main.storyboard */,
 				08A309C71DFA34060049ED37 /* Assets.xcassets */,
 				08A309C91DFA34060049ED37 /* LaunchScreen.storyboard */,
 				08A309CC1DFA34060049ED37 /* Info.plist */,
-				08A309E01DFA372C0049ED37 /* StoryTableViewCell.swift */,
+				08A309E01DFA372C0049ED37 /* StoriesTableViewCell.swift */,
 				08A309E41DFA9DEA0049ED37 /* StoryViewController.swift */,
 			);
 			path = LDL;
@@ -212,9 +212,9 @@
 			files = (
 				08A309E51DFA9DEA0049ED37 /* StoryViewController.swift in Sources */,
 				08A309C31DFA34060049ED37 /* ViewController.swift in Sources */,
-				08A309E31DFA38EE0049ED37 /* StoryTableViewController.swift in Sources */,
+				08A309E31DFA38EE0049ED37 /* StoriesViewController.swift in Sources */,
 				08A309C11DFA34060049ED37 /* AppDelegate.swift in Sources */,
-				08A309E11DFA372C0049ED37 /* StoryTableViewCell.swift in Sources */,
+				08A309E11DFA372C0049ED37 /* StoriesTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +422,7 @@
 				08A309DC1DFA34060049ED37 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		08A309DD1DFA34060049ED37 /* Build configuration list for PBXNativeTarget "LDLTests" */ = {
 			isa = XCConfigurationList;
@@ -430,6 +431,7 @@
 				08A309DF1DFA34060049ED37 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
