@@ -9,24 +9,23 @@
 import Foundation
 import UIKit
 
-struct Story {
-  let name: String
-  let docs: [URL]
-  let audio: [URL]
-
-  var description: String {
-    return "\(docs.count) PDFs, \(audio.count) MP3s"
-  }
-}
-
 class StoriesViewController: UITableViewController {
+
+  init() {
+    super.init(style: .plain)
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    // Make the cell self size
-    tableView.estimatedRowHeight = 44.0
-    tableView.rowHeight = UITableViewAutomaticDimension
+    navigationItem.title = "Stories"
+
+    tableView.register(StoriesTableViewCell.self, forCellReuseIdentifier: StoriesTableViewCell.CellIdentifier)
+    tableView.rowHeight = 44
   }
 
   // MARK: - UITableViewDataSource
@@ -40,14 +39,24 @@ class StoriesViewController: UITableViewController {
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "StoryTableViewCell", for: indexPath) as! StoryTableViewCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoriesTableViewCell.CellIdentifier, for: indexPath) as! StoriesTableViewCell
 
     // Configure the cell...
     let story = stories[indexPath.row]
-    cell.titleLabel.text = story.name
-    cell.detailLabel.text = story.description
+    cell.textLabel?.text = story.name
+    cell.detailTextLabel?.text = story.description
 
     return cell
+  }
+
+  // MARK: - UITableViewDelegate
+
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let story = stories[indexPath.row]
+
+    let storyVC = StoryViewController(story: story)
+
+    navigationController?.pushViewController(storyVC, animated: true)
   }
 
   // MARK: Documents
@@ -88,13 +97,5 @@ class StoriesViewController: UITableViewController {
       urls.append((url, resourceValues))
     }
     return urls
-  }
-
-  // MARK: Segue logic
-
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    assert(segue.identifier == "showStory")
-    let storyVC = segue.destination as! StoryViewController
-    storyVC.story = stories[tableView.indexPathForSelectedRow!.row]
   }
 }

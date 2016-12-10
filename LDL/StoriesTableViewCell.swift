@@ -10,6 +10,14 @@ import Foundation
 import UIKit
 
 class StoriesTableViewCell: UITableViewCell {
-  @IBOutlet var titleLabel: UILabel!
-  @IBOutlet var detailLabel: UILabel!
+  static let CellIdentifier = String(describing: StoriesTableViewCell.self)
+
+  override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    accessoryType = .disclosureIndicator
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 }

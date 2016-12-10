@@ -16,14 +16,24 @@ class StoryViewController: UITableViewController {
     case docs, audio
   }
 
-  var story: Story!
+  private let story: Story
+
+  init(story: Story) {
+    self.story = story
+    super.init(style: .grouped)
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     navigationItem.title = story.name
 
-    
+    tableView.register(StoryTableViewCell.self, forCellReuseIdentifier: StoryTableViewCell.CellIdentifier)
+    tableView.rowHeight = 44
   }
 
   // MARK: - UITableViewDataSource
@@ -32,24 +42,35 @@ class StoryViewController: UITableViewController {
     return 2
   }
 
+  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    switch Sections(rawValue: section)! {
+    case .docs:
+      return "Documents"
+    case .audio:
+      return "Audio"
+    }
+  }
+
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    switch Sections(rawValue: section) {
-    case .some(.docs):
+    switch Sections(rawValue: section)! {
+    case .docs:
       return story.docs.count
-    case .some(.audio):
+    case .audio:
       return story.audio.count
-    default:
-      return 0
     }
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "StoryTableViewCell", for: indexPath) as! StoryTableViewCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryTableViewCell.CellIdentifier, for: indexPath) as! StoryTableViewCell
 
-    // Configure the cell...
-    let story = stories[indexPath.row]
-    cell.titleLabel.text = story.name
-    cell.detailLabel.text = story.description
+    switch Sections(rawValue: indexPath.section)! {
+    case .docs:
+      let doc = story.docs[indexPath.row]
+      cell.textLabel?.text = doc.fileName
+    case .audio:
+      let audio = story.audio[indexPath.row]
+      cell.textLabel?.text = audio.fileName
+    }
 
     return cell
   }
