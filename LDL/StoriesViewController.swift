@@ -71,12 +71,22 @@ class StoriesViewController: UITableViewController {
     }.map { dir, values in
       let name = values.name!
       let subDir = self.urls(in: dir)
+
       let docs = subDir.filter { file, _ in
         return file.pathExtension == "pdf"
-      }.map { $0.url }
+      }
+      .map { $0.url }
+      .sorted {
+        $0.fileName.localizedStandardCompare($1.fileName) == .orderedAscending
+      }
+
       let audio = subDir.filter { file, _ in
         return file.pathExtension == "mp3"
-      }.map { $0.url }
+      }
+      .map { $0.url }
+      .sorted {
+        $0.fileName.localizedStandardCompare($1.fileName) == .orderedAscending
+      }
       return Story(name: name, docs: docs, audio: audio)
     }
   }()

@@ -24,5 +24,6 @@ extension URL {
       .lastPathComponent
       .replacingOccurrences(of: "_Leicht-Deutsch-Lernen", with: "")
       .replacingOccurrences(of: ".com", with: "")
+      .replacingOccurrences(of: "_German-Vocabulary", with: "")
   }
 }
