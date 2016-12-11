@@ -8,6 +8,7 @@
 
 import AVFoundation
 import Foundation
+import MediaPlayer
 import UIKit
 
 let audioPlayer = AudioPlayer()
@@ -15,8 +16,8 @@ let audioPlayer = AudioPlayer()
 class AudioPlayer: UIView {
 
   let audioPlayer = AVPlayer()
-  var observer: Any!
   var token: NSObjectProtocol!
+  var observer: Any?
 
   let pauseButton = UIButton(type: .custom)
   let playButton = UIButton(type: .custom)
@@ -29,27 +30,29 @@ class AudioPlayer: UIView {
     audioPlayer.addObserver(self, forKeyPath: #keyPath(AVPlayer.rate), options: .new, context: nil)
     audioPlayer.addObserver(self, forKeyPath: #keyPath(AVPlayer.currentItem), options: .new, context: nil)
 
+    token = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { [weak self] _ in
+      self?.audioPlayer.seek(to: kCMTimeZero)
+    }
+
     let interval = CMTime(seconds: 0.2, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
     observer = audioPlayer.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
       guard
         let audioPlayer = self?.audioPlayer,
         let currentItem = audioPlayer.currentItem,
-        currentItem.duration.isValid
-      else {
-        return
+        !currentItem.duration.isIndefinite
+        else {
+          return
       }
       let currentTime = audioPlayer.currentTime().seconds
       let duration = currentItem.duration.seconds
-      self?.progressBar.progress = Float(currentTime / duration)
-    }
-
-    token = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { [weak self] _ in
-      self?.audioPlayer.seek(to: kCMTimeZero)
+      let progress = Float(currentTime / duration)
+      self?.progressBar.progress = progress
     }
 
     pauseButton.setImage(#imageLiteral(resourceName: "PauseButton"), for: .normal)
     pauseButton.sizeToFit()
     pauseButton.isHidden = true
+    pauseButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
     addSubview(pauseButton)
 
     pauseButton.translatesAutoresizingMaskIntoConstraints = false
@@ -73,8 +76,8 @@ class AudioPlayer: UIView {
   }
 
   deinit {
-    audioPlayer.removeObserver(self, forKeyPath: #keyPath(AVPlayer.rate))
     audioPlayer.removeTimeObserver(observer!)
+    audioPlayer.removeObserver(self, forKeyPath: #keyPath(AVPlayer.rate))
     NotificationCenter.default.removeObserver(token!)
   }
   
@@ -85,9 +88,23 @@ class AudioPlayer: UIView {
   // MARK - Public methods
 
   func play(url: URL) {
-    let playerItem = AVPlayerItem(url: url)
+    let asset = AVAsset(url: url)
+    let playerItem = AVPlayerItem(asset: asset, automaticallyLoadedAssetKeys: [#keyPath(AVAsset.duration)])
+
+    let mpic = MPNowPlayingInfoCenter.default()
+    mpic.nowPlayingInfo = [
+      MPMediaItemPropertyTitle: url.fileName,
+      MPMediaItemPropertyArtist: "LDL",
+      MPMediaItemPropertyPlaybackDuration: asset.duration.seconds,
+      MPNowPlayingInfoPropertyMediaType: MPNowPlayingInfoMediaType.audio.rawValue
+    ]
+
     audioPlayer.replaceCurrentItem(with: playerItem)
     audioPlayer.play()
+
+    let mpcc = MPRemoteCommandCenter.shared()
+    mpcc.playCommand.addTarget(self, action: #selector(play as (Void) -> Void))
+    mpcc.pauseCommand.addTarget(self, action: #selector(pause))
   }
 
   func play() {
@@ -95,6 +112,8 @@ class AudioPlayer: UIView {
   }
 
   func pause() {
+    let mpic = MPNowPlayingInfoCenter.default()
+    mpic.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = audioPlayer.currentTime().seconds
     audioPlayer.pause()
   }
 
@@ -127,6 +146,10 @@ class AudioPlayer: UIView {
         return
       }
       playState = rate > 0 ? .playing : .paused
+
+      let mpic = MPNowPlayingInfoCenter.default()
+      mpic.nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = rate
+
     case #keyPath(AVPlayer.currentItem):
       resetTransport()
     default:
@@ -135,6 +158,8 @@ class AudioPlayer: UIView {
   }
 
   private func resetTransport() {
+    let mpic = MPNowPlayingInfoCenter.default()
+    mpic.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = 0
     progressBar.progress = 0
   }
 }

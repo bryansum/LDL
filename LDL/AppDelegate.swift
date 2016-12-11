@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let audioSession = AVAudioSession.sharedInstance()
     try! audioSession.setCategory(AVAudioSessionCategoryPlayback)
 
+    application.beginReceivingRemoteControlEvents()
+
     let navigationController = UINavigationController(rootViewController: StoriesViewController())
     audioPlayer.autoresizingMask = .flexibleWidth
     audioPlayer.frame = navigationController.toolbar.bounds
