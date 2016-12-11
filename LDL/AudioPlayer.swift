@@ -21,6 +21,8 @@ class AudioPlayer: UIView {
 
   let pauseButton = UIButton(type: .custom)
   let playButton = UIButton(type: .custom)
+  let nextTrackButton = UIButton(type: .custom)
+  let previousTrackButton = UIButton(type: .custom)
   let progressBar = UIProgressView(progressViewStyle: .bar)
 
   override init(frame: CGRect) {
@@ -68,10 +70,28 @@ class AudioPlayer: UIView {
     playButton.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
     playButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 
+    nextTrackButton.setImage(#imageLiteral(resourceName: "FastForwardButton"), for: .normal)
+    nextTrackButton.sizeToFit()
+    nextTrackButton.addTarget(self, action: #selector(nextTrack), for: .touchUpInside)
+    addSubview(nextTrackButton)
+
+    nextTrackButton.translatesAutoresizingMaskIntoConstraints = false
+    nextTrackButton.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
+    nextTrackButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+
+    previousTrackButton.setImage(#imageLiteral(resourceName: "RewindButton"), for: .normal)
+    previousTrackButton.sizeToFit()
+    previousTrackButton.addTarget(self, action: #selector(previousTrack), for: .touchUpInside)
+    addSubview(previousTrackButton)
+
+    previousTrackButton.translatesAutoresizingMaskIntoConstraints = false
+    nextTrackButton.leadingAnchor.constraint(equalTo: previousTrackButton.trailingAnchor, constant: 4).isActive = true
+    previousTrackButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+
     addSubview(progressBar)
     progressBar.translatesAutoresizingMaskIntoConstraints = false
     progressBar.leadingAnchor.constraint(equalTo: playButton.trailingAnchor, constant: 8).isActive = true
-    progressBar.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
+    previousTrackButton.leadingAnchor.constraint(equalTo: progressBar.trailingAnchor, constant: 8).isActive = true
     progressBar.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
   }
 
@@ -86,6 +106,22 @@ class AudioPlayer: UIView {
   }
 
   // MARK - Public methods
+
+  var urls: [URL]?
+  var selected = 0 {
+    didSet {
+      guard let urls = urls else { return }
+      previousTrackButton.isEnabled = (selected > 0)
+      nextTrackButton.isEnabled = (selected < urls.count - 1)
+    }
+  }
+
+  func play(urls: [URL], selected: Int?) {
+    self.urls = urls
+    self.selected = selected ?? 0
+
+    play(url: urls[self.selected])
+  }
 
   func play(url: URL) {
     let asset = AVAsset(url: url)
@@ -115,6 +151,18 @@ class AudioPlayer: UIView {
     let mpic = MPNowPlayingInfoCenter.default()
     mpic.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = audioPlayer.currentTime().seconds
     audioPlayer.pause()
+  }
+
+  func nextTrack() {
+    guard let urls = urls else { return }
+    selected = min(selected + 1, urls.count - 1)
+    play(url: urls[selected])
+  }
+
+  func previousTrack() {
+    guard let urls = urls else { return }
+    selected = max(selected - 1, 0)
+    play(url: urls[selected])
   }
 
   // MARK - Private methods

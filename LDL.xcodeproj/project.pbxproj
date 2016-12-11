@@ -17,8 +17,6 @@
 		08A309E31DFA38EE0049ED37 /* StoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A309E21DFA38EE0049ED37 /* StoriesViewController.swift */; };
 		08A309E51DFA9DEA0049ED37 /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A309E41DFA9DEA0049ED37 /* StoryViewController.swift */; };
 		08E4AC3A1DFD5BD40043DD63 /* PDFViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E4AC391DFD5BD40043DD63 /* PDFViewerController.swift */; };
-		08E4AC3C1DFDC8500043DD63 /* TODO.md in Sources */ = {isa = PBXBuildFile; fileRef = 08E4AC3B1DFDC8500043DD63 /* TODO.md */; };
-		08E4AC3F1DFDC9DC0043DD63 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 08E4AC3E1DFDC9DC0043DD63 /* README.md */; };
 		08E536311DFC6C3D001BDD2D /* StoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E536301DFC6C3D001BDD2D /* StoryTableViewCell.swift */; };
 		08E536331DFC735A001BDD2D /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E536321DFC735A001BDD2D /* Story.swift */; };
 /* End PBXBuildFile section */
@@ -236,12 +234,10 @@
 				08A309E51DFA9DEA0049ED37 /* StoryViewController.swift in Sources */,
 				08A309E31DFA38EE0049ED37 /* StoriesViewController.swift in Sources */,
 				08E4AC3A1DFD5BD40043DD63 /* PDFViewerController.swift in Sources */,
-				08E4AC3C1DFDC8500043DD63 /* TODO.md in Sources */,
 				084126631DFC834E00461052 /* AudioPlayer.swift in Sources */,
 				08A309C11DFA34060049ED37 /* AppDelegate.swift in Sources */,
 				08A309E11DFA372C0049ED37 /* StoriesTableViewCell.swift in Sources */,
 				08E536311DFC6C3D001BDD2D /* StoryTableViewCell.swift in Sources */,
-				08E4AC3F1DFDC9DC0043DD63 /* README.md in Sources */,
 				084126611DFC826700461052 /* UINavigationController+ToolBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

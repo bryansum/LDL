@@ -85,8 +85,8 @@ class StoryViewController: UITableViewController {
       pdfViewer.selected = indexPath.row
       navigationController?.pushViewController(pdfViewer, animated: true)
     case .audio:
-      let audio = story.audio[indexPath.row]
-      navigationController?.play(url: audio)
+      navigationController?.showToolBarIfNeeded()
+      audioPlayer.play(urls: story.audio, selected: indexPath.row)
     }
   }
 

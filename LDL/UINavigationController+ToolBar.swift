@@ -11,10 +11,10 @@ import UIKit
 
 extension UINavigationController {
 
-  func play(url: URL) {
+  func showToolBarIfNeeded() {
     if isToolbarHidden {
       setToolbarHidden(false, animated: true)
     }
-    audioPlayer.play(url: url)
   }
+
 }
