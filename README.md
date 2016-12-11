@@ -1,5 +1,5 @@
 # LDL
-`LDL` is a simple iOS companion application I made to help me do [Leicht-Deutsch-Lernen](http://leicht-deutsch-lernen.com) exercises while on the go. This website hosts a set of audio files and accompanying documents to help learn German by listening, repeating German as a native speaker would.
+`LDL` is a simple iOS companion application I made to help me do [Leicht-Deutsch-Lernen](http://leicht-deutsch-lernen.com) exercises while on the go. That website offers a set of audio files and accompanying documents to help learn German by listening, repeating German as a native speaker would. This application reads those files and presents an easy-to-use interface for listening and reading at the same time.
 
 To be clear, I have no affiliation with *Leicht-Deutsch-Lernen*, but wholeheartedly endorse their products.
 
