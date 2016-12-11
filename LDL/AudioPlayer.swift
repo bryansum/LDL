@@ -34,7 +34,7 @@ class AudioPlayer: UIView {
       self?.audioPlayer.seek(to: kCMTimeZero)
     }
 
-    let interval = CMTime(seconds: 0.2, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+    let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
     observer = audioPlayer.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] _ in
       guard
         let audioPlayer = self?.audioPlayer,

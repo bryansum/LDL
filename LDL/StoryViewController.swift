@@ -17,9 +17,11 @@ class StoryViewController: UITableViewController {
   }
 
   private let story: Story
+  private let pdfViewer: PDFViewerController
 
   init(story: Story) {
     self.story = story
+    pdfViewer = PDFViewerController(docs: story.docs)
     super.init(style: .grouped)
   }
   
@@ -80,7 +82,8 @@ class StoryViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     switch Sections(rawValue: indexPath.section)! {
     case .docs:
-      let doc = story.docs[indexPath.row]
+      pdfViewer.selected = indexPath.row
+      navigationController?.pushViewController(pdfViewer, animated: true)
     case .audio:
       let audio = story.audio[indexPath.row]
       navigationController?.play(url: audio)
