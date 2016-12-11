@@ -23,7 +23,7 @@ class AudioPlayer: UIView {
   let playButton = UIButton(type: .custom)
   let nextTrackButton = UIButton(type: .custom)
   let previousTrackButton = UIButton(type: .custom)
-  let progressBar = UIProgressView(progressViewStyle: .bar)
+  let progressBar = PaddedProgressView(paddingY: 16)
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -93,6 +93,9 @@ class AudioPlayer: UIView {
     progressBar.leadingAnchor.constraint(equalTo: playButton.trailingAnchor, constant: 8).isActive = true
     previousTrackButton.leadingAnchor.constraint(equalTo: progressBar.trailingAnchor, constant: 8).isActive = true
     progressBar.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+
+    let tap = UITapGestureRecognizer(target: self, action: #selector(progressBarTapped))
+    progressBar.addGestureRecognizer(tap)
   }
 
   deinit {
@@ -122,6 +125,8 @@ class AudioPlayer: UIView {
 
     play(url: urls[self.selected])
   }
+
+  // MARK - Transport methods
 
   func play(url: URL) {
     let asset = AVAsset(url: url)
@@ -166,6 +171,20 @@ class AudioPlayer: UIView {
   }
 
   // MARK - Private methods
+
+  func progressBarTapped(recognizer: UITapGestureRecognizer) {
+    guard let view = recognizer.view else { return }
+
+    let pt = recognizer.location(in: view)
+    let progress = Double(pt.x / view.bounds.width)
+
+    guard let currentItem = audioPlayer.currentItem,
+      !currentItem.duration.isIndefinite else { return }
+
+    let duration = currentItem.duration
+    let time = CMTimeMultiplyByFloat64(duration, progress)
+    audioPlayer.seek(to: time)
+  }
 
   enum PlayState {
     case paused
