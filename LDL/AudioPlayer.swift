@@ -114,14 +114,29 @@ class AudioPlayer: UIView {
   var selected = 0 {
     didSet {
       guard let urls = urls else { return }
-      previousTrackButton.isEnabled = (selected > 0)
-      nextTrackButton.isEnabled = (selected < urls.count - 1)
+
+      let mpcc = MPRemoteCommandCenter.shared()
+
+      let notFirst = (selected > 0)
+      mpcc.previousTrackCommand.isEnabled = notFirst
+      previousTrackButton.isEnabled = notFirst
+
+      let notLast = (selected < urls.count - 1)
+      mpcc.nextTrackCommand.isEnabled = notLast
+      nextTrackButton.isEnabled = notLast
     }
   }
 
   func play(urls: [URL], selected: Int?) {
     self.urls = urls
     self.selected = selected ?? 0
+
+    let mpcc = MPRemoteCommandCenter.shared()
+    mpcc.playCommand.addTarget(self, action: #selector(play as (Void) -> Void))
+    mpcc.pauseCommand.addTarget(self, action: #selector(pause))
+    mpcc.nextTrackCommand.addTarget(self, action: #selector(nextTrack))
+    mpcc.previousTrackCommand.addTarget(self, action: #selector(previousTrack))
+    mpcc.togglePlayPauseCommand.addTarget(self, action: #selector(togglePlayPause))
 
     play(url: urls[self.selected])
   }
@@ -142,10 +157,6 @@ class AudioPlayer: UIView {
 
     audioPlayer.replaceCurrentItem(with: playerItem)
     audioPlayer.play()
-
-    let mpcc = MPRemoteCommandCenter.shared()
-    mpcc.playCommand.addTarget(self, action: #selector(play as (Void) -> Void))
-    mpcc.pauseCommand.addTarget(self, action: #selector(pause))
   }
 
   func play() {
@@ -153,9 +164,16 @@ class AudioPlayer: UIView {
   }
 
   func pause() {
-    let mpic = MPNowPlayingInfoCenter.default()
-    mpic.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = audioPlayer.currentTime().seconds
+    updateNowPlayingTime()
     audioPlayer.pause()
+  }
+
+  func togglePlayPause() {
+    if audioPlayer.rate > 0 {
+      pause()
+    } else {
+      play()
+    }
   }
 
   func nextTrack() {
@@ -172,6 +190,11 @@ class AudioPlayer: UIView {
 
   // MARK - Private methods
 
+  func updateNowPlayingTime() {
+    let mpic = MPNowPlayingInfoCenter.default()
+    mpic.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = audioPlayer.currentTime().seconds
+  }
+
   func progressBarTapped(recognizer: UITapGestureRecognizer) {
     guard let view = recognizer.view else { return }
 
@@ -183,7 +206,9 @@ class AudioPlayer: UIView {
 
     let duration = currentItem.duration
     let time = CMTimeMultiplyByFloat64(duration, progress)
-    audioPlayer.seek(to: time)
+    audioPlayer.seek(to: time, completionHandler: { [weak self] _ in
+      self?.updateNowPlayingTime()
+    })
   }
 
   enum PlayState {
