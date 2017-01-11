@@ -51,6 +51,14 @@ class AudioPlayer: UIView {
       self?.progressBar.progress = progress
     }
 
+    let mpcc = MPRemoteCommandCenter.shared()
+    mpcc.playCommand.addTarget(self, action: #selector(play as (Void) -> Void))
+    mpcc.pauseCommand.addTarget(self, action: #selector(pause))
+    mpcc.nextTrackCommand.addTarget(self, action: #selector(nextTrack))
+    mpcc.previousTrackCommand.addTarget(self, action: #selector(previousTrack))
+    mpcc.togglePlayPauseCommand.addTarget(self, action: #selector(togglePlayPause))
+
+    // UIKit setup
     pauseButton.setImage(#imageLiteral(resourceName: "PauseButton"), for: .normal)
     pauseButton.sizeToFit()
     pauseButton.isHidden = true
@@ -117,11 +125,11 @@ class AudioPlayer: UIView {
 
       let mpcc = MPRemoteCommandCenter.shared()
 
-      let notFirst = (selected > 0)
+      let notFirst = selected > 0
       mpcc.previousTrackCommand.isEnabled = notFirst
       previousTrackButton.isEnabled = notFirst
 
-      let notLast = (selected < urls.count - 1)
+      let notLast = selected < urls.count - 1
       mpcc.nextTrackCommand.isEnabled = notLast
       nextTrackButton.isEnabled = notLast
     }
@@ -130,13 +138,6 @@ class AudioPlayer: UIView {
   func play(urls: [URL], selected: Int?) {
     self.urls = urls
     self.selected = selected ?? 0
-
-    let mpcc = MPRemoteCommandCenter.shared()
-    mpcc.playCommand.addTarget(self, action: #selector(play as (Void) -> Void))
-    mpcc.pauseCommand.addTarget(self, action: #selector(pause))
-    mpcc.nextTrackCommand.addTarget(self, action: #selector(nextTrack))
-    mpcc.previousTrackCommand.addTarget(self, action: #selector(previousTrack))
-    mpcc.togglePlayPauseCommand.addTarget(self, action: #selector(togglePlayPause))
 
     play(url: urls[self.selected])
   }
