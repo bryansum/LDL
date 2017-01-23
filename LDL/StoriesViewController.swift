@@ -26,6 +26,8 @@ class StoriesViewController: UITableViewController {
 
     tableView.register(StoriesTableViewCell.self, forCellReuseIdentifier: StoriesTableViewCell.CellIdentifier)
     tableView.rowHeight = 44
+
+    fetchStories()
   }
 
   // MARK: - UITableViewDataSource
@@ -61,35 +63,41 @@ class StoriesViewController: UITableViewController {
 
   // MARK: Documents
 
-  lazy var documentsDir: URL = {
-    return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-  }()
+  var documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
-  lazy var stories: [Story] = {
-    self.urls(in: self.documentsDir).filter { _, values in
-      return values.isDirectory!
-    }.map { dir, values in
-      let name = values.name!
-      let subDir = self.urls(in: dir)
+  var stories = [Story]()
 
-      let docs = subDir.filter { file, _ in
-        return file.pathExtension == "pdf"
-      }
-      .map { $0.url }
-      .sorted {
-        $0.fileName.localizedStandardCompare($1.fileName) == .orderedAscending
-      }
+  func fetchStories() {
+    DispatchQueue.global().async {
+      let stories = self.urls(in: self.documentsDir).filter { _, values in
+        values.isDirectory!
+        }.map { dir, values -> Story in
+          let name = values.name!
+          let subDir = self.urls(in: dir)
 
-      let audio = subDir.filter { file, _ in
-        return file.pathExtension == "mp3"
+          let docs = subDir.filter { file, _ in
+            return file.pathExtension == "pdf"
+            }
+            .map { $0.url }
+            .sorted {
+              $0.fileName.localizedStandardCompare($1.fileName) == .orderedAscending
+          }
+
+          let audio = subDir.filter { file, _ in
+            return file.pathExtension == "mp3"
+            }
+            .map { $0.url }
+            .sorted {
+              $0.fileName.localizedStandardCompare($1.fileName) == .orderedAscending
+          }
+          return Story(name: name, docs: docs, audio: audio)
       }
-      .map { $0.url }
-      .sorted {
-        $0.fileName.localizedStandardCompare($1.fileName) == .orderedAscending
+      DispatchQueue.main.async {
+        self.stories = stories
+        self.tableView.reloadData()
       }
-      return Story(name: name, docs: docs, audio: audio)
     }
-  }()
+  }
 
   typealias URLs = (url: URL, values: URLResourceValues)
 
