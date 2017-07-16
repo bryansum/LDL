@@ -52,7 +52,7 @@ class AudioPlayer: UIView {
     }
 
     let mpcc = MPRemoteCommandCenter.shared()
-    mpcc.playCommand.addTarget(self, action: #selector(play as (Void) -> Void))
+    mpcc.playCommand.addTarget(self, action: #selector(play as () -> Void))
     mpcc.pauseCommand.addTarget(self, action: #selector(pause))
     mpcc.nextTrackCommand.addTarget(self, action: #selector(nextTrack))
     mpcc.previousTrackCommand.addTarget(self, action: #selector(previousTrack))
@@ -71,7 +71,7 @@ class AudioPlayer: UIView {
 
     playButton.setImage(#imageLiteral(resourceName: "PlayButton"), for: .normal)
     playButton.sizeToFit()
-    playButton.addTarget(self, action: #selector(play as (Void) -> Void), for: .touchUpInside)
+    playButton.addTarget(self, action: #selector(play as () -> Void), for: .touchUpInside)
     addSubview(playButton)
 
     playButton.translatesAutoresizingMaskIntoConstraints = false
@@ -160,16 +160,16 @@ class AudioPlayer: UIView {
     audioPlayer.play()
   }
 
-  func play() {
+  @objc func play() {
     audioPlayer.play()
   }
 
-  func pause() {
+  @objc func pause() {
     updateNowPlayingTime()
     audioPlayer.pause()
   }
 
-  func togglePlayPause() {
+  @objc func togglePlayPause() {
     if audioPlayer.rate > 0 {
       pause()
     } else {
@@ -177,13 +177,13 @@ class AudioPlayer: UIView {
     }
   }
 
-  func nextTrack() {
+  @objc func nextTrack() {
     guard let urls = urls else { return }
     selected = min(selected + 1, urls.count - 1)
     play(url: urls[selected])
   }
 
-  func previousTrack() {
+  @objc func previousTrack() {
     guard let urls = urls else { return }
     selected = max(selected - 1, 0)
     play(url: urls[selected])
@@ -196,7 +196,7 @@ class AudioPlayer: UIView {
     mpic.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = audioPlayer.currentTime().seconds
   }
 
-  func progressBarTapped(recognizer: UITapGestureRecognizer) {
+  @objc func progressBarTapped(recognizer: UITapGestureRecognizer) {
     guard let view = recognizer.view else { return }
 
     let pt = recognizer.location(in: view)
