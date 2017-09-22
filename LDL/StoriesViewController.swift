@@ -23,6 +23,7 @@ class StoriesViewController: UITableViewController {
     super.viewDidLoad()
 
     navigationItem.title = "Stories"
+    navigationController?.toolbar.addSubview(audioPlayer)
 
     tableView.register(StoriesTableViewCell.self, forCellReuseIdentifier: StoriesTableViewCell.CellIdentifier)
     tableView.rowHeight = 44
